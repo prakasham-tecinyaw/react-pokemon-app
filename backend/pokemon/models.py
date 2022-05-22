@@ -16,12 +16,18 @@ class AccountManager(BaseUserManager):
 
         return account
 
-    def create_superuser(self, email, password, **kwargs):
-        account = self.create_user(email, password, **kwargs)
-
+    def create_superuser(self, email, password, name):
+        account = self.create_user(
+            email = email,
+            password = password,
+            name=name
+        )
+        account.is_superuser = True
         account.is_admin = True
-        account.save()
-
+        account.is_staff = True
+        account.is_active = True
+        
+        account.save(using=self._db)
         return account
 
 class Account(AbstractBaseUser, PermissionsMixin):
@@ -43,5 +49,17 @@ class Account(AbstractBaseUser, PermissionsMixin):
 
     def __str__(self):
         return self.email
+
+
+class Pokemon(models.Model):
+    name = models.CharField(max_length=255)
+    hp = models.IntegerField()
+    attack = models.IntegerField()
+    defense = models.IntegerField()
+    type = models.CharField(max_length=255)
+
+    def __str__(self):
+        return self.name
+
 
 

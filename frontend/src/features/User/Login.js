@@ -1,9 +1,11 @@
 import React from "react";
 // import { connect } from "react-redux";
-// import {Link, Redirect} from "react-router-dom";
-import { useState } from "react";
-import { useDispatch } from "react-redux";
-import { login } from "../features/loginSlice";
+import {Link, Redirect} from "react-router-dom";
+import { useState, useEffect } from "react";
+import { useSelector, useDispatch } from 'react-redux';
+import { loginUser, userSelector, clearState } from './UserSlice';
+import toast from 'react-hot-toast';
+import { useNavigate } from 'react-router-dom';
 
 const Login = () => {
   const [formData, setFormData] = useState({
@@ -12,21 +14,41 @@ const Login = () => {
   });
 
   const { email, password } = formData;
-  const onChange = e =>
+
+  const onChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
-
-  const dispatch = useDispatch();
-
-
-  const onSubmit = async e => {
-    e.preventDefault();
-    dispatch(login({ email, password }));
-    // console.log("Login");
-    //login(email, password);
   };
 
-  // Is the user authenticated?
-  // redirect to home if yes
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+
+    // const { register, errors, handleSubmit } = useForm();
+    const { isFetching, isSuccess, isError, errorMessage } = useSelector(
+      userSelector
+    );
+
+    const onSubmit = e => {
+      e.preventDefault();
+      // console.log(formData);
+      dispatch(loginUser(formData));
+    };
+
+    useEffect(() => {
+      return () => {
+        dispatch(clearState());
+      };
+    }, []);
+
+    useEffect(() => {
+      if (isSuccess) {
+        // dispatch(clearState());
+        navigate('/pokemon');
+      }
+      if (isError) {
+        toast.error(errorMessage);
+        dispatch(clearState());
+      }
+    }, [isSuccess,isError]);
 
   return (
     // tailwindcss form
@@ -49,7 +71,7 @@ const Login = () => {
 
         </div>
         <div className="flex items-center justify-center">
-          <button className="dark:bg-gray-800 hover:bg-gray-800 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit">
+          <button className="dark:bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit">
             Login
           </button>
           {/* <Link className="inline-block align-baseline font-bold text-sm hover:text-gray-500" to="/register">

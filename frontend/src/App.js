@@ -1,23 +1,26 @@
 import React from 'react'
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
-
+import { ProtectedRoute } from "./helpers/PrivateRoute"
 import Home from './containers/Home';
-import Signup from './containers/Signup';
-import Login from './containers/Login';
 import Layout from './hocs/Layout';
-import Logout from './containers/Logout'; 
+import Signup from './features/User/Signup';
+import Login from './features/User/Login';
+import Pokemon from './features/Pokemon/Pokemon';
+import Menu  from './containers/Menu';
 import { useSelector } from 'react-redux';
-import { selectUser } from './features/loginSlice';
+import { userSelector } from './features/User/UserSlice';
 
 const App = () => {
-  const user = useSelector(selectUser);
+  const user = useSelector(userSelector);
+
   return (
     <Router>
       <Layout>
         <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/signup" element={<Signup />} />
-          {user ? <Route path="/logout" element={<Logout />} /> : <Route path="/login" element={<Login />} />}
+          <Route path="/" element={<Login/>} />
+          <Route exact path="/signup" element={<Signup />} />
+          <Route exact path="/pokemon" element={<Pokemon />}  />
+          {/* <Route exact path="/menu" element={<ProtectedRoute user={user}></ProtectedRoute>}/>   */}
         </Routes>
       </Layout>
     </Router>

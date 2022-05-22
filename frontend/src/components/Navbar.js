@@ -1,9 +1,12 @@
 import React from 'react'
 import {Link} from "react-router-dom";
 import { useSelector } from 'react-redux';
-import { selectUser } from '../features/loginSlice';
+import { logoutUser, userSelector, clearState } from '../features/User/UserSlice';
 const Navbar = () => {
-  const user = useSelector(selectUser);
+  const user = useSelector(userSelector);
+
+  // check if user is authenticated
+  const isAuthenticated = user.access && user.refresh ? true : false;
   return (
       <nav className="bg-white border-gray-200 px-2 sm:px-4 py-2.5  dark:bg-gray-800 w-full ">
         <div className="container flex flex-wrap justify-between items-center mx-auto">
@@ -15,22 +18,23 @@ const Navbar = () => {
         </button>
         <div className="hidden w-full md:block md:w-auto" id="mobile-menu">
         <ul className="flex flex-col mt-4 md:flex-row md:space-x-8 md:mt-0 md:text-sm md:font-medium">
-
-        <li>
-          <Link to="/" className="block mt-4 md:inline-block md:mt-0 text-gray-800 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-500">
-            Home
-          </Link>
-        </li>
-        <li>
-          <Link to="/logout" className="block mt-4 md:inline-block md:mt-0 text-gray-800 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-500">
-            Logout
-          </Link>
-        </li>
-        <li>
-          <Link to="/login" className="block mt-4 md:inline-block md:mt-0 text-gray-800 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-500">
-              Login
-          </Link>
-        </li>
+        {isAuthenticated ? (
+          <>
+          <li>
+            <Link to="/pokemon" className="block md:inline-block text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-700 dark:focus:ring-2 dark:focus:ring-gray-600 focus:ring-2 focus:ring-gray-600 focus:outline-none">
+              Pokemon
+            </Link>
+          </li>
+          </>
+        ) : (
+          <>
+            <li>
+              <Link to="/signup" className="block md:inline-block text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-700 dark:focus:ring-2 dark:focus:ring-gray-600 focus:ring-2 focus:ring-gray-600 focus:outline-none">
+                Signup
+              </Link>
+            </li>
+          </>
+        )}
         </ul>
         </div>
         </div>

@@ -1,1 +1,4 @@
-# reluvate_test
+# Pokemon App
+
+Fronted - React
+Backend - Django Rest Framework

@@ -89,3 +89,14 @@ def upload_pokemon(request):
                     )
 
     return HttpResponse("Uploaded pokemon")
+
+# return all cookies
+@csrf_exempt
+@api_view(["GET"])
+@permission_classes((AllowAny,))
+def CookiesListView(request):
+    if request.method == "GET":
+        cookies = Cookies.objects.all()
+        serializer = CookiesSerializer(cookies, many=True)
+        return Response(serializer.data, status=HTTP_200_OK)
+        

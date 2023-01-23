@@ -62,4 +62,18 @@ class Pokemon(models.Model):
         return self.name
 
 
+# create model name Cookies with fields
+class Cookies(models.Model):
+    name = models.CharField(max_length=255)
+    price = models.IntegerField()
+    description = models.CharField(max_length=255)
+    qty = models.IntegerField()
+    image = models.CharField(max_length=255)
 
+    def __str__(self):
+        return self.name
+
+    # get total price of all cookies
+    def get_total_price(self):
+        return self.price * self.qty
+    

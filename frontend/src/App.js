@@ -6,7 +6,7 @@ import Layout from './hocs/Layout';
 import Signup from './features/User/Signup';
 import Login from './features/User/Login';
 import Pokemon from './features/Pokemon/Pokemon';
-import Menu  from './containers/Menu';
+import CatchPokemon  from './features/Pokemon/CatchPokemon';
 import { useSelector } from 'react-redux';
 import { userSelector } from './features/User/UserSlice';
 
@@ -19,7 +19,8 @@ const App = () => {
         <Routes>
           <Route path="/" element={<Login/>} />
           <Route exact path="/signup" element={<Signup />} />
-          <Route exact path="/pokemon" element={<Pokemon />}  />
+          <Route exact path="/my_pokemon" element={<Pokemon />}  />
+          <Route exact path="/all_pokemon" element={<CatchPokemon />}  />
           {/* <Route exact path="/menu" element={<ProtectedRoute user={user}></ProtectedRoute>}/>   */}
         </Routes>
       </Layout>

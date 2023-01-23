@@ -16,9 +16,6 @@ urlpatterns = [
 
     # upload pokemon
     path('pokemon/upload/', upload_pokemon, name='upload'),
-
-    # create cookies url
-    path('pokemon/createcookies/', CookiesListView, name='createcookies'),
 ]
 
 

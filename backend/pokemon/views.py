@@ -15,6 +15,22 @@ import csv
 from .serializers import *
 from .models import *
 
+import requests
+
+# create decorator the check access token from HTTP_AUTHORIZATION and return user
+def get_user(request):
+    token = request.META.get("HTTP_AUTHORIZATION")
+    # post request with token
+    # print(token)
+    if token is not None:
+        try:
+            response = requests.post('http://127.0.0.1:8000/api/auth/jwt/verify/', json={"token": token})
+            print(response.json())
+        except:
+            return None
+    else:
+        return None
+
 # api for pokemon
 
 # return all pokemon
@@ -32,7 +48,10 @@ def PokemonListView(request):
 @api_view(["GET"])
 @permission_classes((AllowAny,))
 def PokemonUserListView(request):
+    print(request.user)   
     if request.method == "GET":
+        # user = get_user(request)
+        # # print(user)
         pokemon = Pokemon.objects.filter(owner=request.user)
         serializer = PokemonSerializer(pokemon, many=True)
         return Response(serializer.data, status=HTTP_200_OK)
@@ -89,14 +108,3 @@ def upload_pokemon(request):
                     )
 
     return HttpResponse("Uploaded pokemon")
-
-# return all cookies
-@csrf_exempt
-@api_view(["GET"])
-@permission_classes((AllowAny,))
-def CookiesListView(request):
-    if request.method == "GET":
-        cookies = Cookies.objects.all()
-        serializer = CookiesSerializer(cookies, many=True)
-        return Response(serializer.data, status=HTTP_200_OK)
-        

@@ -1,10 +1,10 @@
 import React, { useEffect,useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { getMyPokemon, pokemonSelector, clearState } from './PokemonSlice';
+import { getAllPokemon, pokemonSelector, clearState } from './PokemonSlice';
 import { useNavigate  } from 'react-router-dom';
 import toast from 'react-hot-toast';
 
-const Pokemon = () => {
+const CatchPokemon = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const [pokemon, setPokemon] = useState([]);
@@ -23,7 +23,7 @@ const Pokemon = () => {
         }
     }, [pokemonData]);
     useEffect(() => {
-        dispatch(getMyPokemon());
+        dispatch(getAllPokemon());
     }, [dispatch]);
     const handleClick = (id) => {
         navigate(`/pokemon/${id}`);
@@ -41,7 +41,7 @@ const Pokemon = () => {
         <div class="px-6 py-8 mx-auto">
             <div class="sm:flex sm:items-center sm:justify-between">
                 <div>
-                    <h2 class="text-3xl font-bold ">My Pokemon List</h2>
+                    <h2 class="text-3xl font-bold ">Pokemon List</h2>
                 </div>
             </div>
 
@@ -83,7 +83,7 @@ const Pokemon = () => {
                         </div>
                     </div>
                     <button class="w-full px-4 py-2 mt-10 font-medium tracking-wide text-white capitalize transition-colors duration-200 transform bg-blue-500 rounded-md hover:bg-blue-600 focus:outline-none focus:bg-blue-600">
-                        Release
+                        Get
                     </button>
                 </div>
                 ))}
@@ -93,4 +93,4 @@ const Pokemon = () => {
     );
 }
 
-export default Pokemon;
+export default CatchPokemon;

@@ -44,7 +44,7 @@ const Signup = () => {
     if (isSuccess) {
       dispatch(clearState());
       // redirect to login page
-      navigate('/login');
+      navigate('/');
     }
 
     if (isError) {

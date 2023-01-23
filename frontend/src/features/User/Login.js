@@ -42,7 +42,7 @@ const Login = () => {
     useEffect(() => {
       if (isSuccess) {
         // dispatch(clearState());
-        navigate('/pokemon');
+        navigate('/my_pokemon');
       }
       if (isError) {
         toast.error(errorMessage);
